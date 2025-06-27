@@ -15,12 +15,12 @@
 # Unidade Barão Geraldo CX
 #
 # 2025_06_27_20_44_29
-# ===========================================================⚡
+# =======================================================⚡
 # VERIFICAÇÃO DE ROOT COM SUPORTE A SUDO
-# ===========================================================⚡
- # ===========================================================⚡
- # CONFIGURAÇÃO DE CORES
- # ===========================================================⚡
+# =======================================================⚡
+# =======================================================⚡
+# CONFIGURAÇÃO DE CORES
+# =======================================================⚡
 COLOR_HEADER="\e[104m"
 COLOR_SUCCESS="\e[1;32m"
 COLOR_WARNING="\e[0;35m"
@@ -38,12 +38,11 @@ fi
 
 printf "${COLOR_SUCCESS}✓ Privilégios de root confirmados.${COLOR_RESET}\n"
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_exe() {
-	
-    # ===========================================================⚡
+    # =======================================================⚡
     # VARIÁVEIS DE SCRIPT
-    # ===========================================================⚡
+    # =======================================================⚡
     local SCRIPT_NAME="xtdc"
     local BIN_DEST="/bin/xtdc"
 
@@ -65,17 +64,17 @@ xtdc_exe() {
     fi
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_ppa() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # DIRETÓRIOS E PATHS
-    # ===========================================================⚡
+    # =======================================================⚡
     local XTDC_DIR="/xtdc25"
     local BKP_DIR="${XTDC_DIR}/BKP"
     
-    # ===========================================================⚡
+    # =======================================================⚡
     # REPOSITÓRIOS EXTERNOS (PPAs)
-    # ===========================================================⚡
+    # =======================================================⚡
     declare -Ag PPAS=(
         ["afelinczak/ppa"]="Cliptit - Clipboard manager"
         ["cubic-wizard/release"]="Cubic Customizer"
@@ -85,7 +84,6 @@ xtdc_ppa() {
         ["otto-kesselgulasch/gimp"]="GIMP (versões mais recentes)"
         ["team-xbmc/ppa"]="Kodi Media Center"
         ["kisak/kisak-mesa"]="Drivers AMD Ryzen 5 2400G with Radeon Vega Graphics"
-
     )
 
     printf "${COLOR_HEADER}[XTDC] CONFIGURANDO REPOSITÓRIOS PPA${COLOR_RESET}\n"
@@ -147,17 +145,17 @@ xtdc_ppa() {
     printf "${COLOR_SUCCESS}✔ Processo concluído!${COLOR_RESET}\n"
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_pkg() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # DIRETÓRIOS E PATHS
-    # ===========================================================⚡
+    # =======================================================⚡
     local XTDC_DIR="/xtdc25"
     local BRAVE_EXT_DIR="/opt/brave.com/brave/extensions"
     
-    # ===========================================================⚡
+    # =======================================================⚡
     # PACOTES PARA INSTALAÇÃO
-    # ===========================================================⚡
+    # =======================================================⚡
     declare -a PKGS=(
         # Navegadores e Internet
         rclone-browser transmission
@@ -180,13 +178,12 @@ xtdc_pkg() {
         # Redes e Backends
         fusesmb gvfs-backends gvfs-fuse samba-libs
         
-# aisleriot bluez* cheese deja-dup duplicity gnome-characters gnome-font-viewer gnome-initial-setup gnome-logs gnome-online-accounts gnome-mines gnome-sudoku gnome-mahjongg language-pack-de language-pack-de-base language-pack-en language-pack-en-base language-pack-es language-pack-es-base language-pack-fr language-pack-fr-base language-pack-gnome-de language-pack-gnome-de-base language-pack-gnome-en language-pack-gnome-en-base language-pack-gnome-es language-pack-gnome-es-base language-pack-gnome-fr language-pack-gnome-fr-base language-pack-gnome-it language-pack-gnome-it-base language-pack-gnome-ru-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base language-pack-gnome-ru language-pack-it language-pack-it-base language-pack-ru language-pack-ru-base language-pack-zh-hans language-pack-zh-hans-base LibreOffice* openvpn* remmina rhythmbox totem cheese shotwell snapd gnome-software-plugin-snap thunderbird* ubuntu-docs usb-creator-gtk 
-    
+        # aisleriot bluez* cheese deja-dup duplicity gnome-characters gnome-font-viewer gnome-initial-setup gnome-logs gnome-online-accounts gnome-mines gnome-sudoku gnome-mahjongg language-pack-de language-pack-de-base language-pack-en language-pack-en-base language-pack-es language-pack-es-base language-pack-fr language-pack-fr-base language-pack-gnome-de language-pack-gnome-de-base language-pack-gnome-en language-pack-gnome-en-base language-pack-gnome-es language-pack-gnome-es-base language-pack-gnome-fr language-pack-gnome-fr-base language-pack-gnome-it language-pack-gnome-it-base language-pack-gnome-ru-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base language-pack-gnome-ru language-pack-it language-pack-it-base language-pack-ru language-pack-ru-base language-pack-zh-hans language-pack-zh-hans-base LibreOffice* openvpn* remmina rhythmbox totem cheese shotwell snapd gnome-software-plugin-snap thunderbird* ubuntu-docs usb-creator-gtk 
     )
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # EXTENSÕES DO BRAVE
-    # ===========================================================⚡
+    # =======================================================⚡
     declare -Ag BRAVE_EXT=(
         ["ponfpcnoihfmfllpaingbgckeeldkhle"]="Enhancer for YouTube™"
         ["mnjggcdmjocbbbhaepdhchncahnbgone"]="SponsorBlock para YouTube"
@@ -196,7 +193,7 @@ xtdc_pkg() {
     printf "${COLOR_HEADER}[XTDC] INSTALANDO PACOTES${COLOR_RESET}\n"
     printf "⚡=====================================================⚡\n"
     
-    printf "➔ Atualizando repositórios... "
+    printf "➔ Atualizando lista de pacotes... "
     if apt-get update -qq; then
         printf "${COLOR_SUCCESS}OK${COLOR_RESET}\n"
     else
@@ -267,31 +264,32 @@ xtdc_pkg() {
             echo -e "     ‣ ${COLOR_ERROR}$pkg${COLOR_RESET}"
         done
     fi
-printf "\n➔ INSTALANDO APLICATIVOS EXTERNOS\n"
 
-# Verifica e instala Rclone apenas se não estiver instalado
-printf "  ➔ Rclone... "
-if command -v rclone >/dev/null 2>&1; then
-    printf "${COLOR_INFO}JÁ INSTALADO${COLOR_RESET}\n"
-else
-    if curl -fsSL https://rclone.org/install.sh | bash >/dev/null 2>&1; then
-        printf "${COLOR_SUCCESS}OK${COLOR_RESET}\n"
-    else
-        printf "${COLOR_ERROR}FALHA${COLOR_RESET}\n"
-    fi
-fi
+    printf "\n➔ INSTALANDO APLICATIVOS EXTERNOS\n"
 
-# Verifica e instala Brave apenas se não estiver instalado
-printf "  ➔ Brave Browser... "
-if [ -f /usr/bin/brave-browser ] || [ -f /opt/brave.com/brave/brave ]; then
-    printf "${COLOR_INFO}JÁ INSTALADO${COLOR_RESET}\n"
-else
-    if curl -fsSL https://dl.brave.com/install.sh | bash >/dev/null 2>&1; then
-        printf "${COLOR_SUCCESS}OK${COLOR_RESET}\n"
+    # Verifica e instala Rclone apenas se não estiver instalado
+    printf "  ➔ Rclone... "
+    if command -v rclone >/dev/null 2>&1; then
+        printf "${COLOR_INFO}JÁ INSTALADO${COLOR_RESET}\n"
     else
-        printf "${COLOR_ERROR}FALHA${COLOR_RESET}\n"
+        if curl -fsSL https://rclone.org/install.sh | bash >/dev/null 2>&1; then
+            printf "${COLOR_SUCCESS}OK${COLOR_RESET}\n"
+        else
+            printf "${COLOR_ERROR}FALHA${COLOR_RESET}\n"
+        fi
     fi
-fi
+
+    # Verifica e instala Brave apenas se não estiver instalado
+    printf "  ➔ Brave Browser... "
+    if [ -f /usr/bin/brave-browser ] || [ -f /opt/brave.com/brave/brave ]; then
+        printf "${COLOR_INFO}JÁ INSTALADO${COLOR_RESET}\n"
+    else
+        if curl -fsSL https://dl.brave.com/install.sh | bash >/dev/null 2>&1; then
+            printf "${COLOR_SUCCESS}OK${COLOR_RESET}\n"
+        else
+            printf "${COLOR_ERROR}FALHA${COLOR_RESET}\n"
+        fi
+    fi
 
     printf "\n➔ CONFIGURANDO EXTENSÕES DO BRAVE\n"
     [ -d "$BRAVE_EXT_DIR" ] || mkdir -p "$BRAVE_EXT_DIR"
@@ -306,11 +304,11 @@ fi
     printf "\n${COLOR_SUCCESS}✔ Instalação de pacotes concluída!${COLOR_RESET}\n"
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_limpeza() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # PACOTES PARA REMOÇÃO (limpeza)
-    # ===========================================================⚡
+    # =======================================================⚡
     declare -a PACOTES_REMOVER=(
         # Pacotes essenciais
         snapd apport apport-symptoms thunderbird aspell
@@ -375,11 +373,11 @@ xtdc_limpeza() {
     printf "${COLOR_WARNING}Recomenda-se reiniciar o sistema.${COLOR_RESET}\n"
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_download() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # CONFIGURAÇÕES
-    # ===========================================================⚡
+    # =======================================================⚡
     local GH_URL="https://github.com/Pinhalito/xtdc25/raw/main"
     local DOWNLOAD_DIR="/xtdc25/tmp"
     declare -a FILE_LIST=(
@@ -398,18 +396,18 @@ xtdc_download() {
     COLOR_WARNING="\033[1;33m"
     COLOR_HEADER="\033[1;36m"
     COLOR_RESET="\033[0m"
-#\033[1;32m
-    # ===========================================================⚡
+
+    # =======================================================⚡
     # DEPENDÊNCIAS
-    # ===========================================================⚡
+    # =======================================================⚡
     if ! command -v curl &>/dev/null && ! command -v wget &>/dev/null; then
         printf "${COLOR_ERROR}✖ Erro: Instale 'curl' ou 'wget' primeiro.${COLOR_RESET}\n"
         return 1
     fi
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # FUNÇÃO DE DOWNLOAD (COM BARRA DE PROGRESSO)
-    # ===========================================================⚡
+    # =======================================================⚡
     download_file() {
         local file_url="$1"
         local dest_file="$2"
@@ -437,9 +435,9 @@ xtdc_download() {
         return 0
     }
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # EXECUÇÃO PRINCIPAL
-    # ===========================================================⚡
+    # =======================================================⚡
     printf "${COLOR_HEADER}📦 INICIANDO DOWNLOADS${COLOR_RESET}\n"
     mkdir -p "$DOWNLOAD_DIR" || {
         printf "${COLOR_ERROR}✖ Falha ao criar diretório de downloads${COLOR_RESET}\n"
@@ -464,9 +462,9 @@ xtdc_download() {
         fi
     done
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # RESUMO FINAL
-    # ===========================================================⚡
+    # =======================================================⚡
     printf "\n${COLOR_HEADER}📋 RESUMO${COLOR_RESET}\n"
     printf "${COLOR_INFO}• Diretório: ${DOWNLOAD_DIR}${COLOR_RESET}\n"
     printf "${COLOR_SUCCESS}• Baixados: $((${#FILE_LIST[@]} - download_errors - skipped_files))${COLOR_RESET}\n"
@@ -483,17 +481,17 @@ xtdc_download() {
     chmod 777 -R /xtdc25
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_tema() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # DIRETÓRIOS E PATHS
-    # ===========================================================⚡
+    # =======================================================⚡
     local XTDC_DIR="/xtdc25"
     local LIGHTDM_CONF_DIR="/usr/share/lightdm/lightdm-gtk-greeter.conf.d"
     
-    # ===========================================================⚡
+    # =======================================================⚡
     # ARQUIVOS DE TEMA
-    # ===========================================================⚡
+    # =======================================================⚡
     declare -a THEME_FILES=(
         "xtdc_icons.tar.gz"
         "xtdc_theme.tar.gz"
@@ -603,11 +601,11 @@ EOF
     return 0
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_limpa_atalhos() {
-	# Remove arquivo específico
+    # Remove arquivo específico
     rm -rf /usr/share/xubuntu/applications/xfhelp4.desktop 2>/dev/null
-	
+    
     local desktop_files=($(find /usr/share/applications -name "*.desktop"))
     
     for file in "${desktop_files[@]}"; do
@@ -619,10 +617,10 @@ xtdc_limpa_atalhos() {
     done
 }
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_ata() {
     declare -A APPS=(
-# INTERNET ===========================================================⚡
+        # INTERNET ===========================================================⚡
         ['google-chrome']="[Desktop Entry]
 Name=Google Chrome
 Comment=Acesse a Internet
@@ -693,8 +691,7 @@ Categories=Network
 Keywords=torrent;
 MimeType=application/x-bittorrent;x-scheme-handler/magnet;"
 
-# MULTIMÍDIA ===========================================================⚡
-
+        # MULTIMÍDIA ===========================================================⚡
         ['smplayer']="[Desktop Entry]
 Name=SMPlayer
 Comment=Player de vídeo e música
@@ -706,6 +703,7 @@ Categories=AudioVideo;
 Keywords=vídeo;video;filme;mp4;música;mp3;áudio;audio;
 MimeType=video/*;audio/*;"
         ['kodi']="[Desktop Entry]
+Version=1.0
 Name=Kodi
 Comment=Central de Vídeos, Filmes, Séries (TV BOX ou Net Gato)
 Exec=kodi
@@ -715,8 +713,7 @@ Type=Application
 Categories=ÁudioVídeo;
 Keywords=Mídia;Filmes;Séries;TV;"
 
-# ESCRITÓRIO ===========================================================⚡
-
+        # ESCRITÓRIO ===========================================================⚡
         ['libreoffice']="[Desktop Entry]
 Name=LibreOffice
 Comment=Suite Office Completa
@@ -738,7 +735,7 @@ Type=Application
 Categories=Office
 MimeType=application/pdf;application/x-bzpdf;application/x-gzpdf;application/x-xzpdf;application/x-ext-pdf;application/postscript;application/x-bzpostscript;application/x-gzpostscript;image/x-eps;image/x-bzeps;image/x-gzeps;application/x-ext-ps;application/x-ext-eps;application/illustrator;application/x-dvi;application/x-bzdvi;application/x-gzdvi;application/x-ext-dvi;image/vnd.djvu+multipage;application/x-ext-djv;application/x-ext-djvu;image/tiff;application/x-cbr;application/x-cbz;application/x-cb7;application/x-cbt;application/x-ext-cbr;application/x-ext-cbz;application/vnd.comicbook+zip;application/x-ext-cb7;application/x-ext-cbt;application/oxps;application/vnd.ms-xpsdocument;"
 
-# GRÁFICOS ===========================================================⚡
+        # GRÁFICOS ===========================================================⚡
         ['eog']="[Desktop Entry]
 Name=Visualizador de imagens
 Comment=Visualizador Simples de imagens 
@@ -761,9 +758,7 @@ MimeType=x-content/image-dcf;
 Categories=Graphics;
 X-GIO-NoFuse=true"
 
-# ACESSÓRIOS ===========================================================⚡
-#baobab calc catfish thunar zip sudo add-apt-repository ppa:upubuntu-com/ppa
-
+        # ACESSÓRIOS ===========================================================⚡
         ['baobab']="[Desktop Entry]
 Name=Analisador de uso de disco
 Comment=Verifique o tamanho de pastas e o espaço disponível em disco
@@ -809,8 +804,7 @@ Terminal=false
 Type=Application
 Categories=Utility;
 Keywords=Partição;Disco;HDD;SSD;"
-# CONFIGURAÇÕES ===========================================================⚡
-
+        # CONFIGURAÇÕES ===========================================================⚡
         ['xfce4-appearance-settings']="[Desktop Entry]
 Name=Aparência
 Comment=Configuração de ícones e temas
@@ -819,8 +813,6 @@ Icon=preferences-desktop-theme
 Terminal=false
 Type=Application
 Categories=Settings;"
-
-# SISTEMA ===========================================================⚡
     )
 
     # ASSOCIAÇÕES PADRÃO
@@ -851,11 +843,11 @@ application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice.de
 
 #FIM
 
-# ===========================================================⚡
+# =======================================================⚡
 xtdc_menu() {
-    # ===========================================================⚡
+    # =======================================================⚡
     # CONFIGURAÇÃO DO MENU
-    # ===========================================================⚡
+    # =======================================================⚡
     local ORDEM_PADRAO=("xtdc_exe" "xtdc_ppa" "xtdc_pkg" "xtdc_limpeza" "xtdc_tema")
     local OPCOES=(
         "1) Instalar comando XTDC (xtdc_exe)"
@@ -868,9 +860,9 @@ xtdc_menu() {
         "8) Sair"
     )
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # FUNÇÃO PARA EXIBIR MENU
-    # ===========================================================⚡
+    # =======================================================⚡
     mostrar_menu() {
         clear
         printf "${COLOR_HEADER}╔══════════════════════════════════╗${COLOR_RESET}\n"
@@ -887,58 +879,59 @@ xtdc_menu() {
         printf "${COLOR_WARNING}Selecione uma opção [1-8]: ${COLOR_RESET}"
     }
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # FUNÇÃO PARA EXECUTAR TODAS AS TAREFAS
-    # ===========================================================⚡
-executar_todas() {
-    # Cabeçalho
-    printf "%s▶ Ordem de execução:%s\n" "${COLOR_HEADER}" "${COLOR_RESET}"
-    
-    # Lista as funções numeradas (corrigido o problema aritmético)
-    local contador=1
-    for funcao in "${ORDEM_PADRAO[@]}"; do
-        printf "%s%d. %s%s\n" "${COLOR_INFO}" "$contador" "$funcao" "${COLOR_RESET}"
-        ((contador++))
-    done
-    
-    # Confirmação
-    printf "\n%sConfirmar execução? [s/N]: %s" "${COLOR_WARNING}" "${COLOR_RESET}"
-    read -r confirmacao
-    [[ "$confirmacao" != [sS]* ]] && return 1
-    
-    # Execução
-    printf "%s▶ Iniciando execução completa...%s\n" "${COLOR_HEADER}" "${COLOR_RESET}"
-    
-    local contador=1
-    for funcao in "${ORDEM_PADRAO[@]}"; do
-        printf "%sExecutando %d/%d: %s%s\n" "${COLOR_INFO}" "$contador" "${#ORDEM_PADRAO[@]}" "$funcao" "${COLOR_RESET}"
-        printf "%s----------------------------------------%s\n" "${COLOR_INFO}" "${COLOR_RESET}"
+    # =======================================================⚡
+    executar_todas() {
+        # Cabeçalho
+        printf "%s▶ Ordem de execução:%s\n" "${COLOR_HEADER}" "${COLOR_RESET}"
         
-        if declare -f "$funcao" >/dev/null; then
-            if "$funcao"; then
-                printf "%s✔ %s concluído com sucesso%s\n" "${COLOR_SUCCESS}" "$funcao" "${COLOR_RESET}"
+        # Lista as funções numeradas (corrigido o problema aritmético)
+        local contador=1
+        for funcao in "${ORDEM_PADRAO[@]}"; do
+            printf "%s%d. %s%s\n" "${COLOR_INFO}" "$contador" "$funcao" "${COLOR_RESET}"
+            ((contador++))
+        done
+        
+        # Confirmação
+        printf "\n%sConfirmar execução? [s/N]: %s" "${COLOR_WARNING}" "${COLOR_RESET}"
+        read -r confirmacao
+        [[ "$confirmacao" != [sS]* ]] && return 1
+        
+        # Execução
+        printf "%s▶ Iniciando execução completa...%s\n" "${COLOR_HEADER}" "${COLOR_RESET}"
+        
+        local contador=1
+        for funcao in "${ORDEM_PADRAO[@]}"; do
+            printf "%sExecutando %d/%d: %s%s\n" "${COLOR_INFO}" "$contador" "${#ORDEM_PADRAO[@]}" "$funcao" "${COLOR_RESET}"
+            printf "%s----------------------------------------%s\n" "${COLOR_INFO}" "${COLOR_RESET}"
+            
+            if declare -f "$funcao" >/dev/null; then
+                if "$funcao"; then
+                    printf "%s✔ %s concluído com sucesso%s\n" "${COLOR_SUCCESS}" "$funcao" "${COLOR_RESET}"
+                else
+                    local status=$?
+                    printf "%s✖ %s falhou (código %d)%s\n" "${COLOR_ERROR}" "$funcao" "$status" "${COLOR_RESET}"
+                    printf "%sContinuar mesmo assim? [s/N]: %s" "${COLOR_WARNING}" "${COLOR_RESET}"
+                    read -r resposta
+                    [[ "$resposta" != [sS]* ]] && return "$status"
+                fi
             else
-                local status=$?
-                printf "%s✖ %s falhou (código %d)%s\n" "${COLOR_ERROR}" "$funcao" "$status" "${COLOR_RESET}"
-                printf "%sContinuar mesmo assim? [s/N]: %s" "${COLOR_WARNING}" "${COLOR_RESET}"
-                read -r resposta
-                [[ "$resposta" != [sS]* ]] && return "$status"
+                printf "%sFunção %s não encontrada!%s\n" "${COLOR_ERROR}" "$funcao" "${COLOR_RESET}"
+                return 1
             fi
-        else
-            printf "%sFunção %s não encontrada!%s\n" "${COLOR_ERROR}" "$funcao" "${COLOR_RESET}"
-            return 1
-        fi
+            
+            printf "\n"
+            ((contador++))
+        done
         
-        printf "\n"
-        ((contador++))
-    done
-    
-    printf "%s✅ Todas as %d tarefas foram concluídas!%s\n" "${COLOR_SUCCESS}" "${#ORDEM_PADRAO[@]}" "${COLOR_RESET}"
-    return 0
-}
-    # ===========================================================⚡
+        printf "%s✅ Todas as %d tarefas foram concluídas!%s\n" "${COLOR_SUCCESS}" "${#ORDEM_PADRAO[@]}" "${COLOR_RESET}"
+        return 0
+    }
+
+    # =======================================================⚡
     # FUNÇÃO PARA CONFIGURAR ORDEM
-    # ===========================================================⚡
+    # =======================================================⚡
     configurar_ordem() {
         while true; do
             clear
@@ -1002,9 +995,9 @@ executar_todas() {
         done
     }
 
-    # ===========================================================⚡
+    # =======================================================⚡
     # LOOP PRINCIPAL DO MENU
-    # ===========================================================⚡
+    # =======================================================⚡
     while true; do
         mostrar_menu
         read -r opcao
@@ -1030,47 +1023,46 @@ executar_todas() {
     return 0
 }
 xtdc_criatudo() {
-# Limpeza segura do arquivo de saída
-: > tudo.txt
+    # Limpeza segura do arquivo de saída
+    : > tudo.txt
 
-first_file=true
-for file in *.desktop; do
-    # Verifica se o arquivo existe e não está vazio (proteção extra)
-    if [ ! -s "$file" ]; then
-        echo "[AVISO] Arquivo $file vazio ou não encontrado, pulando..." >&2
-        continue
-    fi
+    first_file=true
+    for file in *.desktop; do
+        # Verifica se o arquivo existe e não está vazio (proteção extra)
+        if [ ! -s "$file" ]; then
+            echo "[AVISO] Arquivo $file vazio ou não encontrado, pulando..." >&2
+            continue
+        fi
 
-    # Adiciona linhas em branco entre entradas (exceto primeira)
-    if ! $first_file; then
-        printf '\n\n' >> tudo.txt  # Mais eficiente que dois 'echo'
-    fi
-    
-    # Processamento do conteúdo com segurança:
-    content=$(
-        # 1. Escapa aspas internas
-        # 2. Remove espaços no final das linhas
-        # 3. Remove linhas totalmente vazias no final (opcional)
-        sed -e 's/"/\\"/g' \
-            -e 's/[[:blank:]]*$//' \
-            -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$file"
-    )
+        # Adiciona linhas em branco entre entradas (exceto primeira)
+        if ! $first_file; then
+            printf '\n\n' >> tudo.txt  # Mais eficiente que dois 'echo'
+        fi
+        
+        # Processamento do conteúdo com segurança:
+        content=$(
+            # 1. Escapa aspas internas
+            # 2. Remove espaços no final das linhas
+            # 3. Remove linhas totalmente vazias no final (opcional)
+            sed -e 's/"/\\"/g' \
+                -e 's/[[:blank:]]*$//' \
+                -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$file"
+        )
 
-    # Gravação formatada (à prova de erros)
-    {
-        printf "['%s']=\"" "$file"
-        printf '%s' "$content"
-        echo '"'
-    } >> tudo.txt  # Redirecionamento único para melhor performance
+        # Gravação formatada (à prova de erros)
+        {
+            printf "['%s']=\"" "$file"
+            printf '%s' "$content"
+            echo '"'
+        } >> tudo.txt  # Redirecionamento único para melhor performance
 
-    first_file=false
-done
+        first_file=false
+    done
 
-echo "Processamento concluído! Resultado salvo em 'tudo.txt'"
-
+    echo "Processamento concluído! Resultado salvo em 'tudo.txt'"
 }
 xtdc_cria_ata() {
-nome_atalho="[Desktop Entry]
+    nome_atalho="[Desktop Entry]
 Name=teste
 Comment=bliu
 Exec=bliu
@@ -1080,6 +1072,6 @@ Type=Application
 Categories=;
 Keywords=;
 MimeType=;"
-echo "$nome_atalho" > /usr/share/applications/nome-do-atalho.desktop
-#update-desktop-database ~/.local/share/applications/
+    echo "$nome_atalho" > /usr/share/applications/nome-do-atalho.desktop
+    #update-desktop-database ~/.local/share/applications/
 }
