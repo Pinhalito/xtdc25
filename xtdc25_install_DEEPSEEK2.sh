@@ -14,7 +14,7 @@
 # Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_06_27_20_44_29
+# 2025_06_27_23_04_09
 #
 # =======================================================⚡
 # CONFIGURAÇÃO DE CORES
@@ -699,6 +699,7 @@ Type=Application
 Categories=AudioVideo;
 Keywords=vídeo;video;filme;mp4;música;mp3;áudio;audio;
 MimeType=video/*;audio/*;"
+
         ['kodi']="[Desktop Entry]
 Version=1.0
 Name=Kodi
@@ -707,7 +708,7 @@ Exec=kodi
 Icon=kodi
 Terminal=false
 Type=Application
-Categories=ÁudioVídeo;
+Categories=AudioVideo;
 Keywords=Mídia;Filmes;Séries;TV;"
 
         # ESCRITÓRIO ===========================================================⚡
@@ -774,6 +775,7 @@ Icon=speedcrunch
 Terminal=false
 Type=Application
 Categories=Utility;"
+
         ['gnome-disks']="[Desktop Entry]
 Name=Discos
 Comment=Gerencie unidades de disco e mídias
@@ -783,6 +785,7 @@ Terminal=false
 Type=Application
 Categories=Utility;
 Keywords=disco;drive;hdd;disc;"
+
         ['gnome-system-monitor']="[Desktop Entry]
 Name=Monitor do Sistema
 Comment=Visualize processos e monitore o estado do sistema
@@ -792,6 +795,7 @@ Terminal=false
 Type=Application
 Categories=Utility;
 Keywords=Monitor;Sistema;Processos;CPU;Memória;Rede;Desempenho;"
+
         ['gparted']="[Desktop Entry]
 Name=GParted
 Comment=Crie, reorganize e exclua partições
@@ -801,6 +805,7 @@ Terminal=false
 Type=Application
 Categories=Utility;
 Keywords=Partição;Disco;HDD;SSD;"
+
         # CONFIGURAÇÕES ===========================================================⚡
         ['xfce4-appearance-settings']="[Desktop Entry]
 Name=Aparência
@@ -838,63 +843,4 @@ application/vnd.openxmlformats-officedocument.spreadsheetml.sheet=libreoffice.de
     echo "Banco de dados de atalhos atualizado"
 }
 
-# =======================================================⚡
-# FUNÇÃO PRINCIPAL: CRIA ARQUIVO COM TODOS OS ATALHOS
-# =======================================================⚡
-xtdc_criatudo() {
-    # Limpeza segura do arquivo de saída
-    : > tudo.txt
-
-    first_file=true
-    for file in *.desktop; do
-        # Verifica se o arquivo existe e não está vazio (proteção extra)
-        if [ ! -s "$file" ]; then
-            echo "[AVISO] Arquivo $file vazio ou não encontrado, pulando..." >&2
-            continue
-        fi
-
-        # Adiciona linhas em branco entre entradas (exceto primeira)
-        if ! $first_file; then
-            printf '\n\n' >> tudo.txt  # Mais eficiente que dois 'echo'
-        fi
-        
-        # Processamento do conteúdo com segurança:
-        content=$(
-            # 1. Escapa aspas internas
-            # 2. Remove espaços no final das linhas
-            # 3. Remove linhas totalmente vazias no final (opcional)
-            sed -e 's/"/\\"/g' \
-                -e 's/[[:blank:]]*$//' \
-                -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$file"
-        )
-
-        # Gravação formatada (à prova de erros)
-        {
-            printf "['%s']=\"" "$file"
-            printf '%s' "$content"
-            echo '"'
-        } >> tudo.txt  # Redirecionamento único para melhor performance
-
-        first_file=false
-    done
-
-    echo "Processamento concluído! Resultado salvo em 'tudo.txt'"
-}
-
-# =======================================================⚡
-# FUNÇÃO PRINCIPAL: CRIA ATALHO DE EXEMPLO
-# =======================================================⚡
-xtdc_cria_ata() {
-    nome_atalho="[Desktop Entry]
-Name=teste
-Comment=bliu
-Exec=bliu
-Icon=bliu
-Terminal=false
-Type=Application
-Categories=;
-Keywords=;
-MimeType=;"
-    echo "$nome_atalho" > /usr/share/applications/nome-do-atalho.desktop
-    #update-desktop-database ~/.local/share/applications/
-}
+#FIM
