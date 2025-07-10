@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 #######################
 #    ^...^  `^...^´   #
 #   / o,o \ / O,O \   #
@@ -9,10 +9,23 @@
 #      1998-2025      #
 #######################
 # Toca das Corujas
-# Códigos Binários, Funções de Onda e Teoria do Orbital Molecular Inc.
+# Códigos Binários,
+# Funções de Onda e
+# Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_06_19_23_09_41
+# 2025_07_09_23_15_41
+#
+# ===========================================================⚡
+# CONFIGURAÇÃO DE CORES
+# ===========================================================⚡
+COLOR_HEADER="\e[104m"
+COLOR_SUCCESS="\e[1;32m"
+COLOR_WARNING="\e[0;35m"
+COLOR_ERROR="\e[1;31m"
+COLOR_INFO="\e[1;36m"
+COLOR_RESET="\033[0m"
+
 
 # =================================================▼
 # FUNÇÕES DE GERENCIAMENTO E AJUDA
@@ -22,6 +35,7 @@
 # Função: xtdc_ajuda
 # Descrição: Exibe ajuda para todas as funções disponíveis no script
 # Uso: xtdc_ajuda [arquivo]
+# =================================================▲
 xtdc_ajuda(){
     local file="${1:-${BASH_SOURCE[0]}}"
     echo -e "\n\033[1;36mHELP DAS FUNÇÕES DISPONÍVEIS\033[0m\n"
@@ -50,6 +64,18 @@ xtdc_ajuda(){
 }
 
 # =================================================▼
+# Função: xtdc_listar_funcoes
+# Descrição: Lista todas as funções disponíveis no script
+# Uso: xtdc_listar_funcoes
+# =================================================▲
+xtdc_listar_funcoes() {
+    echo -e "\n${COLOR_HEADER}FUNÇÕES DISPONÍVEIS:${COLOR_RESET}"
+    echo "========================================"
+    declare -F | grep 'xtdc_' | awk '{print $3}' | sort | column
+    echo "========================================"
+}
+
+# =================================================▼
 # FUNÇÕES DE MULTIMÍDIA
 # =================================================▲
 
@@ -57,6 +83,7 @@ xtdc_ajuda(){
 # Função: xtdc_printa
 # Descrição: Captura uma região da tela, salva em um arquivo com data/hora e copia para o clipboard
 # Uso: xtdc_printa
+# =================================================▲
 xtdc_printa(){
     local agora=$(date +%Y_%m_%d_%H_%M_%S)
     local destino="/mnt/UM/IMAGENS/PRINTS"
@@ -83,6 +110,7 @@ xtdc_printa(){
 # Função: xtdc_maisvol
 # Descrição: Aumenta/reduz o volume de um arquivo de mídia usando ffmpeg
 # Uso: xtdc_maisvol arquivo.mp3 3 (aumenta 3dB)
+# =================================================▲
 xtdc_maisvol(){
     ffmpeg -i "$1" -af volume="$2" -vcodec copy "alto_$1"
 }
@@ -91,6 +119,7 @@ xtdc_maisvol(){
 # Função: xtdc_maisveloc
 # Descrição: Acelera um vídeo em 1.6x (ajustável via setpts e atempo)
 # Uso: xtdc_maisveloc arquivo.mp4
+# =================================================▲
 xtdc_maisveloc(){
     ffmpeg -i "$1" -filter_complex "[0:v]setpts=0.625*PTS[v];[0:a]atempo=1.6[a]" \
         -map "[v]" -map "[a]" "rapido_$1"
@@ -100,6 +129,7 @@ xtdc_maisveloc(){
 # Função: xtdc_norma
 # Descrição: Normaliza o volume de um arquivo de mídia e converte para AAC
 # Uso: xtdc_norma arquivo.mp4
+# =================================================▲
 xtdc_norma(){
     local nome=${1::-4}
     ffmpeg-normalize "$1" -c:a aac -b:a 192k -o "${nome}alto.mp4"
@@ -110,10 +140,38 @@ xtdc_norma(){
 # Função: xtdc_baixa5
 # Descrição: Reduz o volume de um arquivo em 5dB
 # Uso: xtdc_baixa5 arquivo.mp3
+# =================================================▲
 xtdc_baixa5(){
     local nome_base="${1%.*}"
     local extensao="${1##*.}"
     ffmpeg -i "$1" -af "volume=-5dB" -c:v copy -c:a aac -b:a 192k "${nome_base}_5db.${extensao}"
+}
+
+# =================================================▼
+# Função: extrair_legendas
+# Descrição: Extrai legendas de todos os arquivos MKV no diretório atual
+# Uso: extrair_legendas
+# =================================================▲
+xtdc_extrair_legendas() {
+    for arquivo in *.mkv; do
+        [ -e "$arquivo" ] || continue
+        base="${arquivo%.mkv}"
+        echo "Extraindo legenda de: $arquivo"
+        mkvextract tracks "$arquivo" 2:"$base.srt"
+    done
+}
+
+# =================================================▼
+# Função: extrair_legenda
+# Descrição: Extrai legenda de um arquivo MKV específico
+# Uso: extrair_legenda arquivo.mkv
+# =================================================▲
+xtdc_extrair_legenda() {
+    arquivo="$1"
+    [ -f "$arquivo" ] || { echo "Arquivo não encontrado: $arquivo"; return 1; }
+    base="${arquivo%.mkv}"
+    echo "Extraindo legenda de: $arquivo"
+    mkvextract tracks "$arquivo" 2:"$base.srt"
 }
 
 # =================================================▼
@@ -124,6 +182,7 @@ xtdc_baixa5(){
 # Função: xtdc_ytcut
 # Descrição: Corta um vídeo do YouTube entre dois tempos (sem re-encode)
 # Uso: xtdc_ytcut "URL" 00:01:00 00:02:00 saida
+# =================================================▲
 xtdc_ytcut(){
     ffmpeg -ss "$2" -to "$3" -i "$(yt-dlp -f best --get-url "$1")" \
         -c:v copy -c:a copy "$4.mp4"
@@ -133,6 +192,7 @@ xtdc_ytcut(){
 # Função: xtdc_baixa_playlistYT
 # Descrição: Download de playlists do YouTube em resolução 480p (MKV)
 # Uso: xtdc_baixa_playlistYT
+# =================================================▲
 xtdc_baixa_playlistYT(){
     local PLAYLIST_URL=$(zenity --entry --title "Download de Playlist" --text "Cole a URL:")
     [[ -z "$PLAYLIST_URL" ]] && return
@@ -153,6 +213,7 @@ xtdc_baixa_playlistYT(){
 # Função: xtdc_baixa_playlistYT_audio
 # Descrição: Download direto de áudios MP3 de playlists do YouTube (sem conversão)
 # Uso: xtdc_baixa_playlistYT_audio
+# =================================================▲
 xtdc_baixa_playlistYT_audio(){
     local PLAYLIST_URL=$(zenity --entry --title "Download de Playlist (Áudio)" --text "Cole a URL da playlist:")
     [[ -z "$PLAYLIST_URL" ]] && return
@@ -180,6 +241,7 @@ xtdc_baixa_playlistYT_audio(){
 # Função: xtdc_videoYT_baixa
 # Descrição: Download de vídeos do YouTube com seleção de qualidade
 # Uso: xtdc_videoYT_baixa
+# =================================================▲
 xtdc_videoYT_baixa(){
     local VIDEO_URL=$(zenity --entry --title "Download de Vídeo" --text "Cole a URL:" --width=400)
     [[ -z "$VIDEO_URL" ]] && return 1
@@ -218,6 +280,7 @@ xtdc_videoYT_baixa(){
 # Função: xtdc_testaurl
 # Descrição: Verifica se uma URL está acessível
 # Uso: xtdc_testaurl "https://exemplo.com"
+# =================================================▲
 xtdc_testaurl(){
     if curl --head --silent --fail "$1" > /dev/null 2>&1; then
         zenity --info --text="✅ Esta URL existe."
@@ -230,6 +293,7 @@ xtdc_testaurl(){
 # Função: xtdc_ajusta_volume
 # Descrição: Interface gráfica para ajustar o volume de um arquivo de mídia
 # Uso: xtdc_ajusta_volume
+# =================================================▲
 xtdc_ajusta_volume(){
     local arquivo=$(zenity --file-selection --title="Selecione o arquivo" \
         --file-filter="*.mp4 *.mkv *.avi *.mov *.mp3 *.flac *.wav")
@@ -262,13 +326,14 @@ xtdc_ajusta_volume(){
 }
 
 # =================================================▼
-# Função: xtdc_baixar_descompactar_github
-# Descrição: Baixa um arquivo tar.gz do GitHub, descompacta na pasta atual e remove o arquivo original se bem-sucedido
-# Uso: xtdc_baixar_descompactar_github "URL_DO_ARQUIVO.tar.gz"
+# Função: xtdc_baixar_targz_github
+# Descrição: Baixa um arquivo tar.gz do GitHub, descompacta na pasta atual e remove o arquivo original
+# Uso: xtdc_baixar_targz_github "URL_DO_ARQUIVO.tar.gz"
+# =================================================▲
 xtdc_baixar_targz_github() {
     if [[ -z "$1" ]]; then
         echo -e "\033[1;31mErro: URL do arquivo não informada.\033[0m"
-        echo "Uso: xtdc_baixar_descompactar_github \"URL_DO_ARQUIVO.tar.gz\""
+        echo "Uso: xtdc_baixar_targz_github \"URL_DO_ARQUIVO.tar.gz\""
         return 1
     fi
 
@@ -302,6 +367,7 @@ xtdc_baixar_targz_github() {
 # Função: xtdc_baixar_descompactar_zip_senha
 # Descrição: Baixa um arquivo ZIP com senha do GitHub, solicita a senha apenas na descompactação
 # Uso: xtdc_baixar_descompactar_zip_senha "URL_DO_ARQUIVO.zip"
+# =================================================▲
 xtdc_baixar_descompactar_zip_senha() {
     if [[ -z "$1" ]]; then
         echo -e "\033[1;31mErro: URL do arquivo não informada.\033[0m"
@@ -342,10 +408,10 @@ xtdc_baixar_descompactar_zip_senha() {
 }
 
 # =================================================▼
-# EXECUÇÃO PRINCIPAL
+# Função: xtdc_configurar_diretorios
+# Descrição: Configura diretórios padrão do usuário com interface interativa
+# Uso: xtdc_configurar_diretorios
 # =================================================▲
-
-# =================================================▼
 xtdc_configurar_diretorios() {
     # Resolve o caminho real mesmo quando há atalhos
     resolve_caminho_real() {
@@ -446,46 +512,12 @@ xtdc_configurar_diretorios() {
     echo
 }
 
-# Chama a função principal
-
-
-xtdc_listar_funcoes() {
-    echo -e "\n${COLOR_HEADER}FUNÇÕES DISPONÍVEIS:${COLOR_RESET}"
-    echo "========================================"
-    declare -F | grep 'xtdc_' | awk '{print $3}' | sort | column
-    echo "========================================"
-}
-
-
-
-
-
-"$@"
-
-
-### FIM DO SCRPT DE INSTALAÇÃO
-
 # =================================================▼
-# Função para verificar arquivos modificados
+# Função: check_modified_files
+# Descrição: Verifica arquivos modificados comparando com /etc/skel ou backup original
+# Uso: check_modified_files [diretório]
+# =================================================▲
 check_modified_files() {
-	
-	
-# Define o usuário de origem e o diretório de backup original (se existir)
-USER_HOME="/xtdc2022/skel"
-SKEL_DIR="/etc/skel"
-BACKUP_DIR="/xtdc25"  # Opcional: se você tem um backup do home original
-
-# Arquivo de log para registrar as alterações
-LOG_FILE="/xtdc25/arquivos_modificados.log"
-
-# Limpa o arquivo de log se existir
-> "$LOG_FILE"
-
-
-
-
-
-
     local dir="$1"
     find "$dir" -type f -printf "%T@ %p\n" | sort -n | while read -r line; do
         filepath=$(echo "$line" | awk '{print $2}')
@@ -510,9 +542,7 @@ LOG_FILE="/xtdc25/arquivos_modificados.log"
     done
 }
 
-# Executa a verificação
-####check_modified_files "$USER_HOME"
-
-# Exibe o resultado
-#####echo "Arquivos modificados/novos foram salvos em: $LOG_FILE"
-######cat "$LOG_FILE"
+# Chama a função principal se o script for executado diretamente
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    "$@"
+fi
