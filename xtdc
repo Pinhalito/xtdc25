@@ -542,6 +542,43 @@ check_modified_files() {
     done
 }
 
+
+# Função para embaralhar (com ClipIt)
+embaralha() {
+    echo -n "Digite a senha para embaralhar: "
+    read -s senha
+    echo
+    
+    # Gera o texto embaralhado
+    texto_embaralhado=$(openssl enc -aes-256-cbc -a -A -salt -pass pass:"$senha" <<< "$1" 2>/dev/null)
+    
+    # Copia para o ClipIt corretamente
+    echo -n "$texto_embaralhado" | xclip -selection clipboard
+    
+    # Verifica se foi copiado
+    if [ "$(xclip -o -selection clipboard)" = "$texto_embaralhado" ]; then
+        echo "✅ String embaralhada copiada para o clipboard!"
+    else
+        echo "❌ Falha ao copiar para o clipboard"
+        echo "Texto embaralhado: $texto_embaralhado"
+    fi
+}
+
+# Função para desembaralhar
+desembaralha() {
+    echo -n "Digite a senha para desembaralhar: "
+    read -s senha
+    echo
+    
+    openssl enc -aes-256-cbc -a -d -A -salt -pass pass:"$senha" <<< "$1" 2>/dev/null || echo "❌ Senha incorreta!"
+}
+
+senha_de_sempre() {
+	desembaralha U2FsdGVkX19QKHP8C3kiSjD19OJAZHKaE/D0PPzyg3uHU2R1dv0ad27Kvtp2T5OYSPWq5+b7R5qNQYaaR2/I0Yip+NT4hTbO/FoMOEPRV4uEo1B6aeQxERclHK8mBg9o4XyqTXPRbj0uyy0e94vs1A==
+}
+
+
+
 # Chama a função principal se o script for executado diretamente
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     "$@"
