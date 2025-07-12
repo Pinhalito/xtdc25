@@ -64,7 +64,7 @@ xtdc_update() {
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
     local installed_script="/bin/xtdc"  # Caminho absoluto fixo
 
-    echo -e "${COLOR_INFO}🔍 Forçando atualização do GitHub...${COLOR_RESET}"
+    echo -e "${COLOR_INFO}🔍 Baixando atualização do GitHub...${COLOR_RESET}"
 
     # Baixa a versão mais recente (ignorando comparação)
     if ! wget -q "$github_url" -O "$temp_file"; then
@@ -76,7 +76,6 @@ xtdc_update() {
     # Substitui o arquivo local SEMPRE (sem checar diferenças)
     if sudo cp "$temp_file" "$installed_script" && sudo chmod +x "$installed_script"; then
         echo -e "${COLOR_SUCCESS}✅ Script atualizado para a versão mais recente!${COLOR_RESET}"
-        echo -e "${COLOR_INFO}ℹ️ Execute 'xtdc' novamente para usar a nova versão.${COLOR_RESET}"
     else
         echo -e "${COLOR_ERROR}❌ Falha ao instalar a nova versão (verifique permissões)${COLOR_RESET}"
     fi
