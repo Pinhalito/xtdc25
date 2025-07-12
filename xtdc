@@ -15,7 +15,7 @@
 # Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_07_11_12_00_00
+# 2025_07_12_12_09_03
 #
 # =================================================⚡
 # CONFIGURAÇÃO DE CORES
@@ -541,7 +541,7 @@ check_modified_files() {
             echo "$filepath" >> "$LOG_FILE"
         fi
     done
-}
+} 
 
 # =================================================▼
 # Função: xtdc_update
@@ -549,7 +549,7 @@ check_modified_files() {
 # Uso: xtdc_update
 # =================================================▲
 xtdc_update() {
-    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/refs/heads/main/xtdc_mini"
+    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/refs/heads/main/xtdc"
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
     
     echo -e "${COLOR_INFO}🔍 Verificando atualizações...${COLOR_RESET}"
