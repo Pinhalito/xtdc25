@@ -15,7 +15,7 @@
 # Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_07_12_12_20_59
+# 2025_07_12_12_24_37
 #
 # =================================================⚡
 # CONFIGURAÇÃO DE CORES
@@ -44,13 +44,10 @@ xtdc_printa(){
             mv "$temp_file" "$novo_arquivo" && {
                 zenity --notification --timeout=1 --text="✅ Captura salva em:\n${novo_arquivo}"
             }
-        else
-            rm -f "$temp_file"
-            zenity --error --title="Captura Cancelada" --text="❌ Nenhuma região foi selecionada." --timeout=1
         fi
     else
         rm -f "$temp_file"
-        zenity --error --title="Erro na Captura" --text="❌ A captura foi cancelada ou ocorreu um erro." --timeout=1
+        zenity --error --title="Captura Cancelada" --text="❌ Nenhuma região foi selecionada." --timeout=1
     fi
 }
 
@@ -60,9 +57,17 @@ xtdc_printa(){
 # Uso: xtdc_update
 # =================================================▲
 xtdc_update() {
-    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/refs/heads/main/xtdc"
+    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/main/xtdc"
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
     local installed_script="/bin/xtdc"  # Caminho absoluto fixo
+
+    # Verifica se os comandos necessários existem
+    for cmd in wget sudo cp chmod; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            echo -e "${COLOR_ERROR}❌ Comando obrigatório não encontrado: $cmd${COLOR_RESET}"
+            return 1
+        fi
+    done
 
     echo -e "${COLOR_INFO}🔍 Baixando atualização do GitHub...${COLOR_RESET}"
 
@@ -78,9 +83,20 @@ xtdc_update() {
         echo -e "${COLOR_SUCCESS}✅ Script atualizado para a versão mais recente!${COLOR_RESET}"
     else
         echo -e "${COLOR_ERROR}❌ Falha ao instalar a nova versão (verifique permissões)${COLOR_RESET}"
+        rm -f "$temp_file"
+        return 1
     fi
 
     rm -f "$temp_file"
+}
+
+
+xtdc_extrair_legenda() {
+    arquivo="$1"
+    [ -f "$arquivo" ] || { echo "Arquivo não encontrado: $arquivo"; return 1; }
+    base="${arquivo%.mkv}"
+    echo "Extraindo legenda de: $arquivo"
+    mkvextract tracks "$arquivo" 2:"$base.srt"
 }
 
 
