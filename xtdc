@@ -15,7 +15,7 @@
 # Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_07_12_12_17_03
+# 2025_07_12_12_20_59
 #
 # =================================================⚡
 # CONFIGURAÇÃO DE CORES
@@ -60,31 +60,30 @@ xtdc_printa(){
 # Uso: xtdc_update
 # =================================================▲
 xtdc_update() {
-    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/refs/heads/main/xtdc"
+    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/main/xtdc_mini"
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
-    
-    echo -e "${COLOR_INFO}🔍 Verificando atualizações...${COLOR_RESET}"
-    
+    local installed_script="/bin/xtdc"  # Caminho absoluto fixo
+
+    echo -e "${COLOR_INFO}🔍 Forçando atualização do GitHub...${COLOR_RESET}"
+
+    # Baixa a versão mais recente (ignorando comparação)
     if ! wget -q "$github_url" -O "$temp_file"; then
         echo -e "${COLOR_ERROR}❌ Falha ao baixar a nova versão${COLOR_RESET}"
         rm -f "$temp_file"
         return 1
     fi
-    
-    if ! cmp -s "$0" "$temp_file"; then
-        echo -e "${COLOR_INFO}🔄 Nova versão encontrada! Atualizando...${COLOR_RESET}"
-        if sudo cp "$temp_file" "$0" && sudo chmod +x "$0"; then
-            echo -e "${COLOR_SUCCESS}✅ Atualização concluída com sucesso!${COLOR_RESET}"
-            echo -e "${COLOR_INFO}ℹ️ Reinicie o script para aplicar as mudanças.${COLOR_RESET}"
-        else
-            echo -e "${COLOR_ERROR}❌ Falha ao instalar a nova versão (permissões?)${COLOR_RESET}"
-        fi
+
+    # Substitui o arquivo local SEMPRE (sem checar diferenças)
+    if sudo cp "$temp_file" "$installed_script" && sudo chmod +x "$installed_script"; then
+        echo -e "${COLOR_SUCCESS}✅ Script atualizado para a versão mais recente!${COLOR_RESET}"
+        echo -e "${COLOR_INFO}ℹ️ Execute 'xtdc' novamente para usar a nova versão.${COLOR_RESET}"
     else
-        echo -e "${COLOR_SUCCESS}✅ Você já tem a versão mais recente!${COLOR_RESET}"
+        echo -e "${COLOR_ERROR}❌ Falha ao instalar a nova versão (verifique permissões)${COLOR_RESET}"
     fi
-    
+
     rm -f "$temp_file"
 }
+
 
 # Chama a função principal se o script for executado diretamente
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
