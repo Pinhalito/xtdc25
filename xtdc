@@ -60,7 +60,7 @@ xtdc_printa(){
 # Uso: xtdc_update
 # =================================================▲
 xtdc_update() {
-    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/main/xtdc_mini"
+    local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/refs/heads/main/xtdc"
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
     local installed_script="/bin/xtdc"  # Caminho absoluto fixo
 
