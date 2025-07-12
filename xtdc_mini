@@ -1,0 +1,109 @@
+#!/bin/bash
+
+#######################
+#    ^...^  `^...^´   #
+#   / o,o \ / O,O \   #
+#   |):::(| |):::(|   #
+# ====" "=====" "==== #
+#         TdC         #
+#      1998-2025      #
+#######################
+# Toca das Corujas
+# Códigos Binários,
+# Funções de Onda e
+# Teoria do Orbital Molecular Inc.
+# Unidade Barão Geraldo CX
+#
+# 2025_07_12_11_53_28
+#
+# ===========================================================⚡
+# CONFIGURAÇÃO DE CORES
+# ===========================================================⚡
+COLOR_HEADER="\e[104m"
+COLOR_SUCCESS="\e[1;32m"
+COLOR_WARNING="\e[0;35m"
+COLOR_ERROR="\e[1;31m"
+COLOR_INFO="\e[1;36m"
+COLOR_RESET="\033[0m"
+
+# =================================================▼
+# Função: xtdc_update
+# Descrição: Auto-atualiza o script a partir do GitHub
+# Uso: xtdc_update
+# =================================================▲
+xtdc_update() {
+    local github_url="https://raw.githubusercontent.com/MEUUSER/REPOSITORIO/main/xtdc.txt"
+    local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
+    
+    echo -e "${COLOR_INFO}🔍 Verificando atualizações...${COLOR_RESET}"
+    
+    if ! wget -q "$github_url" -O "$temp_file"; then
+        echo -e "${COLOR_ERROR}❌ Falha ao baixar a nova versão${COLOR_RESET}"
+        rm -f "$temp_file"
+        return 1
+    fi
+    
+    if ! cmp -s "$0" "$temp_file"; then
+        echo -e "${COLOR_INFO}🔄 Nova versão encontrada! Atualizando...${COLOR_RESET}"
+        if sudo cp "$temp_file" "$0" && sudo chmod +x "$0"; then
+            echo -e "${COLOR_SUCCESS}✅ Atualização concluída com sucesso!${COLOR_RESET}"
+            echo -e "${COLOR_INFO}ℹ️ Reinicie o script para aplicar as mudanças.${COLOR_RESET}"
+        else
+            echo -e "${COLOR_ERROR}❌ Falha ao instalar a nova versão (permissões?)${COLOR_RESET}"
+        fi
+    else
+        echo -e "${COLOR_SUCCESS}✅ Você já tem a versão mais recente!${COLOR_RESET}"
+    fi
+    
+    rm -f "$temp_file"
+}
+
+# =================================================▼
+# Função: xtdc_printa
+# Descrição: Captura uma região da tela, salva em um arquivo com data/hora e copia para o clipboard
+# Uso: xtdc_printa
+# =================================================▲
+xtdc_printa(){
+    local agora=$(date +%Y_%m_%d_%H_%M_%S)
+    local destino="~/Imagens/CapturasdeTela"
+    mkdir -p "$destino"
+    local temp_file=$(mktemp "/tmp/xfce_screenshot_XXXXXX.png")
+
+    if xfce4-screenshooter -rc -s "$temp_file" 2>/dev/null; then
+        if [[ -s "$temp_file" ]]; then
+            local novo_arquivo="${destino}/captura_de_tela_${agora}.png"
+            mv "$temp_file" "$novo_arquivo" && {
+                zenity --notification --timeout=1 --text="✅ Captura salva em:\n${novo_arquivo}"
+            }
+        else
+            rm -f "$temp_file"
+            zenity --error --title="Captura Cancelada" --text="❌ Nenhuma região foi selecionada." --timeout=1
+        fi
+    else
+        rm -f "$temp_file"
+        zenity --error --title="Erro na Captura" --text="❌ A captura foi cancelada ou ocorreu um erro." --timeout=1
+    fi
+}
+
+# =================================================▼
+# Função: xtdc_help
+# Descrição: Exibe ajuda do script
+# Uso: xtdc_help
+# =================================================▲
+xtdc_help() {
+    echo -e "${COLOR_HEADER}📌 XTDC - UTILITÁRIO LINUX${COLOR_RESET}"
+    echo -e "${COLOR_INFO}Comandos disponíveis:${COLOR_RESET}"
+    echo -e "  ${COLOR_SUCCESS}printa${COLOR_RESET}   - Captura região da tela"
+    echo -e "  ${COLOR_SUCCESS}update${COLOR_RESET}  - Auto-atualiza o script"
+    echo -e "  ${COLOR_SUCCESS}help${COLOR_RESET}    - Mostra esta ajuda"
+}
+
+# Chama a função principal se o script for executado diretamente
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    case "$1" in
+        printa) xtdc_printa ;;
+        update) xtdc_update ;;
+        help) xtdc_help ;;
+        *) xtdc_help ;;
+    esac
+fi
