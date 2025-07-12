@@ -51,6 +51,7 @@ xtdc_printa(){
     fi
 }
 
+
 # =================================================▼
 # Função: xtdc_update
 # Descrição: Auto-atualiza o script a partir do GitHub
@@ -91,6 +92,11 @@ xtdc_update() {
 }
 
 
+# =================================================▼
+# Função: xtdc_extrair_legenda
+# Descrição: Extrai a legenda de um arquivo mkv
+# Uso: xtdc_extrair_legenda arquivo.mkv
+# =================================================▲
 xtdc_extrair_legenda() {
     arquivo="$1"
     [ -f "$arquivo" ] || { echo "Arquivo não encontrado: $arquivo"; return 1; }
@@ -99,6 +105,12 @@ xtdc_extrair_legenda() {
     mkvextract tracks "$arquivo" 2:"$base.srt"
 }
 
+
+# =================================================▼
+# Função: xtdc_embaralha
+# Descrição: Embaralha uma string
+# Uso: xtdc_embaralha STRING
+# =================================================▲
 # Função para embaralhar
 xtdc_embaralha() {
     echo -n "Digite a senha para embaralhar: "
@@ -120,6 +132,12 @@ xtdc_embaralha() {
     fi
 }
 
+
+# =================================================▼
+# Função: xtdc_desembaralha
+# Descrição: Desembaralha uma string
+# Uso: xtdc_desembaralha STRING
+# =================================================▲
 # Função para desembaralhar
 xtdc_desembaralha() {
     echo -n "Digite a senha para desembaralhar: "
@@ -128,6 +146,7 @@ xtdc_desembaralha() {
     
     openssl enc -aes-256-cbc -a -d -A -salt -pass pass:"$senha" <<< "$1" 2>/dev/null || echo "❌ Senha incorreta!"
 }
+
 
 xtdc_senha_de_sempre() {
 	desembaralha U2FsdGVkX19QKHP8C3kiSjD19OJAZHKaE/D0PPzyg3uHU2R1dv0ad27Kvtp2T5OYSPWq5+b7R5qNQYaaR2/I0Yip+NT4hTbO/FoMOEPRV4uEo1B6aeQxERclHK8mBg9o4XyqTXPRbj0uyy0e94vs1A==
