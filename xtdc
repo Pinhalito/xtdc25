@@ -15,7 +15,7 @@
 # Teoria do Orbital Molecular Inc.
 # Unidade Barão Geraldo CX
 #
-# 2025_07_12_17_37_09
+# 2025_07_12_23_18_27
 #
 # =================================================⚡
 # CONFIGURAÇÃO DE CORES
@@ -51,12 +51,11 @@ xtdc_printa(){
     fi
 }
 
-
-# =================================================▼
+# =================================================⚡
 # Função: xtdc_update
 # Descrição: Auto-atualiza o script a partir do GitHub
 # Uso: xtdc_update
-# =================================================▲
+# =================================================⚡
 xtdc_update() {
     local github_url="https://raw.githubusercontent.com/Pinhalito/xtdc25/main/xtdc"
     local temp_file=$(mktemp /tmp/xtdc_update.XXXXXX)
@@ -91,12 +90,11 @@ xtdc_update() {
     rm -f "$temp_file"
 }
 
-
-# =================================================▼
+# =================================================⚡
 # Função: xtdc_extrair_legenda
 # Descrição: Extrai a legenda de um arquivo mkv
 # Uso: xtdc_extrair_legenda arquivo.mkv
-# =================================================▲
+# =================================================⚡
 xtdc_extrair_legenda() {
     arquivo="$1"
     [ -f "$arquivo" ] || { echo "Arquivo não encontrado: $arquivo"; return 1; }
@@ -105,12 +103,11 @@ xtdc_extrair_legenda() {
     mkvextract tracks "$arquivo" 2:"$base.srt"
 }
 
-
-# =================================================▼
+# =================================================⚡
 # Função: xtdc_embaralha
 # Descrição: Embaralha uma string
 # Uso: xtdc_embaralha STRING
-# =================================================▲
+# =================================================⚡
 # Função para embaralhar
 xtdc_embaralha() {
     echo -n "Digite a senha para embaralhar: "
@@ -132,12 +129,11 @@ xtdc_embaralha() {
     fi
 }
 
-
-# =================================================▼
+# =================================================⚡
 # Função: xtdc_desembaralha
 # Descrição: Desembaralha uma string
 # Uso: xtdc_desembaralha STRING
-# =================================================▲
+# =================================================⚡
 # Função para desembaralhar
 xtdc_desembaralha() {
     echo -n "Digite a senha para desembaralhar: "
@@ -147,14 +143,14 @@ xtdc_desembaralha() {
     openssl enc -aes-256-cbc -a -d -A -salt -pass pass:"$senha" <<< "$1" 2>/dev/null || echo "❌ Senha incorreta!"
 }
 
-
+# =================================================⚡
 xtdc_senha_de_sempre() {
 	desembaralha U2FsdGVkX19QKHP8C3kiSjD19OJAZHKaE/D0PPzyg3uHU2R1dv0ad27Kvtp2T5OYSPWq5+b7R5qNQYaaR2/I0Yip+NT4hTbO/FoMOEPRV4uEo1B6aeQxERclHK8mBg9o4XyqTXPRbj0uyy0e94vs1A==
     desembaralha U2FsdGVkX1/VJICs1wTvNZAIiVnTDZL5IDEPb4r7qVn4ZKczhJGBOUW9xL2F6UpfUe9ojkUyHNQr50DCMEzxBs3Os9gNd6luCgLyJgfCNmpUiLOOW/Zy+GHaN4rAGdt8G3wO/+deYxEMNiCeeGUknQ==
     
 }
 
-
+# =================================================⚡
 xtdc_bkp() {
 # Configuração simplificada - adicione seus diretórios entre os parênteses
 DIRETORIOS=(
@@ -199,7 +195,7 @@ else
 fi
 }
 
-
+# =================================================⚡
 xtdc_install_libreoffice_appimage() {
     # Verificar se é root
     if [[ $EUID -ne 0 ]]; then
@@ -292,11 +288,7 @@ EOL
     echo "LibreOffice AppImage instalado em: $INSTALL_DIR/$LO_FILENAME"
 }
 
-
-
-
-
-
+# =================================================⚡
 xtdc_install_gimp_appimage() {
     # Verificar se é root
     if [[ $EUID -ne 0 ]]; then
@@ -394,15 +386,7 @@ EOL
     echo "Execute com: $INSTALL_DIR/$GIMP_FILENAME"
 }
 
-
-
-
-
-
-
-
-
-
+# =================================================⚡
 # Chama a função principal se o script for executado diretamente
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     "$@"
